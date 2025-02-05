@@ -19,8 +19,7 @@ import {
 
 const CharactersCount = () => {
   const [text, setTextFn] = useState('')
-  const [wordsList, setcharactersLengthFn] = useState([])
-  console.log(wordsList)
+  const [wordsList, setWordsListFn] = useState([])
 
   const onChangeText = event => {
     setTextFn(event.target.value)
@@ -28,13 +27,15 @@ const CharactersCount = () => {
 
   const addText = event => {
     event.preventDefault()
-    const wordLength = {
+    const word = {
       id: v4(),
       text,
       textLength: text.length,
     }
-    setcharactersLengthFn(prevWordsList => [...prevWordsList, wordLength])
-    setTextFn('')
+    if (word.text !== '') {
+      setWordsListFn(prevState => [...prevState, word])
+      setTextFn('')
+    }
   }
 
   return (
@@ -48,9 +49,9 @@ const CharactersCount = () => {
         {wordsList.length > 0 ? (
           <CharactersContainer>
             {wordsList.map(eachWord => (
-              <ListItem
-                key={eachWord.id}
-              ><WordLength>{`${eachWord.text}: ${eachWord.textLength}`}</WordLength></ListItem>
+              <ListItem key={eachWord.id}>
+                <WordLength>{`${eachWord.text}: ${eachWord.textLength}`}</WordLength>
+              </ListItem>
             ))}
           </CharactersContainer>
         ) : (
